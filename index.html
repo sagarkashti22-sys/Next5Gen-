@@ -1,119 +1,134 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Next5Gen - Professional Blog</title>
-<meta name="description" content="Next5Gen - Education, Technology, Health & Lifestyle Blog">
+<title>Next5Gen Blog</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
-body{
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
 font-family:'Poppins',sans-serif;
-background:linear-gradient(135deg,#667eea,#764ba2);
-color:#fff;
 }
 
+body{
+background:#f4f7ff;
+}
+
+/* HEADER */
 header{
-background:rgba(255,255,255,0.1);
-backdrop-filter:blur(15px);
-padding:20px;
+background:linear-gradient(45deg,#4e73df,#1cc88a);
+padding:15px 5%;
 display:flex;
 justify-content:space-between;
 align-items:center;
+color:white;
+position:sticky;
+top:0;
+z-index:1000;
 }
 
 .logo{
-display:flex;
-align-items:center;
-gap:10px;
-font-size:26px;
+font-size:24px;
 font-weight:700;
 }
 
-.logo-icon{
-width:45px;
-height:45px;
-background:linear-gradient(45deg,#ffcc00,#ff0066);
-border-radius:50%;
+nav ul{
 display:flex;
-justify-content:center;
-align-items:center;
-font-weight:bold;
+list-style:none;
+gap:25px;
 }
 
-nav{
-background:linear-gradient(90deg,#ff512f,#dd2476);
-display:flex;
-justify-content:center;
+nav ul li{
+cursor:pointer;
+font-weight:500;
+transition:0.3s;
 }
 
-nav a{
-padding:14px 20px;
-color:#fff;
-font-weight:600;
+nav ul li:hover{
+color:yellow;
 }
 
+/* HERO */
+.hero{
+background:linear-gradient(to right,#4e73df,#36b9cc);
+color:white;
+padding:60px 5%;
+text-align:center;
+}
+
+.hero h1{
+font-size:40px;
+margin-bottom:15px;
+}
+
+.hero p{
+font-size:18px;
+}
+
+/* POSTS */
 .container{
-max-width:1200px;
-margin:40px auto;
-padding:20px;
-}
-
-.grid{
+padding:40px 5%;
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
 gap:25px;
 }
 
 .card{
-background:#fff;
-color:#000;
-border-radius:15px;
+background:white;
+border-radius:12px;
 overflow:hidden;
-box-shadow:0 15px 35px rgba(0,0,0,0.2);
-transition:0.4s;
+box-shadow:0 10px 25px rgba(0,0,0,0.1);
+transition:0.3s;
 }
 
 .card:hover{
 transform:translateY(-8px);
 }
 
-.card-img{
+.card img{
+width:100%;
 height:200px;
-background-size:cover;
-background-position:center;
+object-fit:cover;
 }
-
-.education{background-image:url('https://source.unsplash.com/600x400/?education');}
-.technology{background-image:url('https://source.unsplash.com/600x400/?technology');}
-.health{background-image:url('https://source.unsplash.com/600x400/?health');}
-.lifestyle{background-image:url('https://source.unsplash.com/600x400/?lifestyle');}
 
 .card-content{
 padding:20px;
 }
 
-.card-content h3{
+.card h3{
+margin-bottom:10px;
+color:#4e73df;
+}
+
+.category{
+display:inline-block;
+background:#1cc88a;
+color:white;
+padding:5px 10px;
+border-radius:5px;
+font-size:12px;
 margin-bottom:10px;
 }
 
-.read{
-display:inline-block;
-margin-top:10px;
-padding:8px 15px;
-background:#0077ff;
-color:#fff;
-border-radius:20px;
-text-decoration:none;
+/* FOOTER */
+footer{
+background:#2e2e2e;
+color:white;
+text-align:center;
+padding:20px;
+margin-top:40px;
 }
 
-footer{
-text-align:center;
-padding:30px;
-margin-top:40px;
+/* RESPONSIVE */
+@media(max-width:768px){
+.hero h1{
+font-size:28px;
+}
 }
 </style>
 </head>
@@ -121,66 +136,85 @@ margin-top:40px;
 <body>
 
 <header>
-<div class="logo">
-<div class="logo-icon">N5</div>
-Next5Gen
-</div>
+<div class="logo">Next5Gen</div>
+<nav>
+<ul>
+<li onclick="filterPosts('all')">Home</li>
+<li onclick="filterPosts('education')">Education</li>
+<li onclick="filterPosts('technology')">Technology</li>
+<li onclick="filterPosts('health')">Health</li>
+<li onclick="filterPosts('lifestyle')">Lifestyle</li>
+</ul>
+</nav>
 </header>
 
-<nav>
-<a href="#">Home</a>
-<a href="#">Education</a>
-<a href="#">Technology</a>
-<a href="#">Health</a>
-<a href="#">Lifestyle</a>
-</nav>
+<section class="hero">
+<h1>Welcome to Next5Gen Blog</h1>
+<p>Education | Technology | Health | Lifestyle</p>
+</section>
 
-<div class="container">
+<section class="container" id="posts">
 
-<div class="grid">
-
-<div class="card">
-<div class="card-img education"></div>
+<div class="card" data-category="education">
+<img src="https://source.unsplash.com/600x400/?education,study">
 <div class="card-content">
-<h3>Education Article Title</h3>
-<p>Short description yaha likho.</p>
-<a href="post.html?title=Education Article&category=education" class="read">Read More</a>
+<span class="category">Education</span>
+<h3>Top Study Techniques 2026</h3>
+<p>Learn smart study methods to boost your productivity and exam results.</p>
 </div>
 </div>
 
-<div class="card">
-<div class="card-img technology"></div>
+<div class="card" data-category="technology">
+<img src="https://source.unsplash.com/600x400/?technology,ai">
 <div class="card-content">
-<h3>Technology Article Title</h3>
-<p>Short description yaha likho.</p>
-<a href="post.html?title=Technology Article&category=technology" class="read">Read More</a>
+<span class="category">Technology</span>
+<h3>Future of AI in 2026</h3>
+<p>Artificial Intelligence is transforming the world faster than ever.</p>
 </div>
 </div>
 
-<div class="card">
-<div class="card-img health"></div>
+<div class="card" data-category="health">
+<img src="https://source.unsplash.com/600x400/?health,fitness">
 <div class="card-content">
-<h3>Health Article Title</h3>
-<p>Short description yaha likho.</p>
-<a href="post.html?title=Health Article&category=health" class="read">Read More</a>
+<span class="category">Health</span>
+<h3>Healthy Lifestyle Tips</h3>
+<p>Daily habits that improve your physical and mental health.</p>
 </div>
 </div>
 
-<div class="card">
-<div class="card-img lifestyle"></div>
+<div class="card" data-category="lifestyle">
+<img src="https://source.unsplash.com/600x400/?lifestyle,travel">
 <div class="card-content">
-<h3>Lifestyle Article Title</h3>
-<p>Short description yaha likho.</p>
-<a href="post.html?title=Lifestyle Article&category=lifestyle" class="read">Read More</a>
+<span class="category">Lifestyle</span>
+<h3>Modern Living Trends</h3>
+<p>Discover the latest lifestyle trends shaping modern life.</p>
 </div>
 </div>
 
-</div>
-</div>
+</section>
 
 <footer>
-© 2026 Next5Gen | Multi Page Professional Blog
+© 2026 Next5Gen Blog | Designed by Next5Gen
 </footer>
+
+<script>
+function filterPosts(category){
+const posts=document.querySelectorAll('.card');
+
+posts.forEach(post=>{
+if(category==='all'){
+post.style.display='block';
+}
+else{
+if(post.getAttribute('data-category')===category){
+post.style.display='block';
+}else{
+post.style.display='none';
+}
+}
+});
+}
+</script>
 
 </body>
 </html>
