@@ -3,20 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Next5Gen</title>
+<title>Next5Gen Blog</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
 
 body{
 background:#f4f7ff;
+transition:0.3s;
+}
+
+body.dark{
+background:#1e1e1e;
+color:white;
 }
 
 /* HEADER */
@@ -26,36 +27,43 @@ padding:15px 5%;
 display:flex;
 justify-content:space-between;
 align-items:center;
+flex-wrap:wrap;
 color:white;
 position:sticky;
 top:0;
 z-index:1000;
 }
 
-.logo svg{
-height:45px;
-animation: glow 2s infinite alternate;
-}
-
-@keyframes glow {
-from { filter: drop-shadow(0 0 5px yellow); }
-to { filter: drop-shadow(0 0 20px white); }
+.logo{
+font-size:24px;
+font-weight:700;
 }
 
 nav ul{
 display:flex;
 list-style:none;
-gap:25px;
+gap:20px;
 }
 
 nav ul li{
 cursor:pointer;
-font-weight:500;
-transition:0.3s;
+padding:5px 10px;
+border-radius:5px;
 }
 
-nav ul li:hover{
-color:yellow;
+nav ul li:hover,
+nav ul li.active{
+background:rgba(255,255,255,0.3);
+}
+
+/* BUTTONS */
+.toggle-btn{
+background:white;
+border:none;
+padding:6px 12px;
+border-radius:20px;
+cursor:pointer;
+margin-top:10px;
 }
 
 /* HERO */
@@ -64,15 +72,6 @@ background:linear-gradient(to right,#4e73df,#36b9cc);
 color:white;
 padding:60px 5%;
 text-align:center;
-}
-
-.hero h1{
-font-size:40px;
-margin-bottom:15px;
-}
-
-.hero p{
-font-size:18px;
 }
 
 /* POSTS */
@@ -89,6 +88,11 @@ border-radius:12px;
 overflow:hidden;
 box-shadow:0 10px 25px rgba(0,0,0,0.1);
 transition:0.3s;
+cursor:pointer;
+}
+
+body.dark .card{
+background:#2c2c2c;
 }
 
 .card:hover{
@@ -110,14 +114,36 @@ margin-bottom:10px;
 color:#4e73df;
 }
 
-.category{
-display:inline-block;
-background:#1cc88a;
+/* POPUP */
+.popup{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.7);
+display:none;
+justify-content:center;
+align-items:center;
+padding:20px;
+}
+
+.popup-content{
+background:white;
+padding:30px;
+max-width:600px;
+border-radius:10px;
+}
+
+body.dark .popup-content{
+background:#2c2c2c;
 color:white;
-padding:5px 10px;
-border-radius:5px;
-font-size:12px;
-margin-bottom:10px;
+}
+
+.close-btn{
+float:right;
+cursor:pointer;
+font-size:18px;
 }
 
 /* FOOTER */
@@ -128,111 +154,108 @@ text-align:center;
 padding:20px;
 margin-top:40px;
 }
-
-/* RESPONSIVE */
-@media(max-width:768px){
-.hero h1{
-font-size:28px;
-}
-}
 </style>
 </head>
 
 <body>
 
 <header>
-
-<div class="logo">
-<svg viewBox="0 0 400 100">
-  <defs>
-    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" style="stop-color:#ffdd00;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#ffffff;stop-opacity:1" />
-    </linearGradient>
-  </defs>
-  <text x="0" y="65" font-size="60" font-weight="700" fill="url(#grad1)">
-    Next5Gen
-  </text>
-</svg>
-</div>
+<div class="logo">Next5Gen</div>
 
 <nav>
-<ul>
-<li onclick="filterPosts('all')">Home</li>
-<li onclick="filterPosts('education')">Education</li>
-<li onclick="filterPosts('technology')">Technology</li>
-<li onclick="filterPosts('health')">Health</li>
-<li onclick="filterPosts('lifestyle')">Lifestyle</li>
+<ul id="menu">
+<li class="active" onclick="filterPosts('all',this)">Home</li>
+<li onclick="filterPosts('education',this)">Education</li>
+<li onclick="filterPosts('technology',this)">Technology</li>
+<li onclick="filterPosts('health',this)">Health</li>
+<li onclick="filterPosts('lifestyle',this)">Lifestyle</li>
 </ul>
 </nav>
+
+<button class="toggle-btn" onclick="toggleDark()">🌙 Mode</button>
 </header>
 
 <section class="hero">
-<h1>Welcome to Next5Gen</h1>
+<h1>Welcome to Next5Gen Blog</h1>
 <p>Education | Technology | Health | Lifestyle</p>
 </section>
 
 <section class="container" id="posts">
 
-<div class="card" data-category="education">
+<div class="card" data-category="education" onclick="openPost(this)">
 <img src="https://source.unsplash.com/600x400/?education,study">
 <div class="card-content">
-<span class="category">Education</span>
 <h3>Top Study Techniques 2026</h3>
-<p>Learn smart study methods to boost your productivity and exam results.</p>
+<p>Learn smart study methods to boost productivity and exam results.</p>
 </div>
 </div>
 
-<div class="card" data-category="technology">
+<div class="card" data-category="technology" onclick="openPost(this)">
 <img src="https://source.unsplash.com/600x400/?technology,ai">
 <div class="card-content">
-<span class="category">Technology</span>
-<h3>Future of AI in 2026</h3>
-<p>Artificial Intelligence is transforming the world faster than ever.</p>
+<h3>Future of AI</h3>
+<p>Artificial Intelligence is transforming the world rapidly.</p>
 </div>
 </div>
 
-<div class="card" data-category="health">
+<div class="card" data-category="health" onclick="openPost(this)">
 <img src="https://source.unsplash.com/600x400/?health,fitness">
 <div class="card-content">
-<span class="category">Health</span>
-<h3>Healthy Lifestyle Tips</h3>
-<p>Daily habits that improve your physical and mental health.</p>
-</div>
-</div>
-
-<div class="card" data-category="lifestyle">
-<img src="https://source.unsplash.com/600x400/?lifestyle,travel">
-<div class="card-content">
-<span class="category">Lifestyle</span>
-<h3>Modern Living Trends</h3>
-<p>Discover the latest lifestyle trends shaping modern life.</p>
+<h3>Healthy Living Guide</h3>
+<p>Daily habits to improve your physical and mental health.</p>
 </div>
 </div>
 
 </section>
+
+<div class="popup" id="popup">
+<div class="popup-content">
+<span class="close-btn" onclick="closePost()">✖</span>
+<h2 id="popup-title"></h2>
+<p id="popup-desc"></p>
+</div>
+</div>
 
 <footer>
 © 2026 Next5Gen Blog | Designed by Next5Gen
 </footer>
 
 <script>
-function filterPosts(category){
-const posts=document.querySelectorAll('.card');
 
-posts.forEach(post=>{
-if(category==='all'){
-post.style.display='block';
-}
-else{
-if(post.getAttribute('data-category')===category){
-post.style.display='block';
+let currentCategory="all";
+
+function filterPosts(category,element){
+currentCategory=category;
+document.querySelectorAll("#menu li").forEach(li=>li.classList.remove("active"));
+element.classList.add("active");
+
+document.querySelectorAll(".card").forEach(card=>{
+if(category==="all" || card.dataset.category===category){
+card.style.display="block";
 }else{
-post.style.display='none';
-}
+card.style.display="none";
 }
 });
 }
+
+function toggleDark(){
+document.body.classList.toggle("dark");
+}
+
+function openPost(card){
+document.getElementById("popup-title").innerText=
+card.querySelector("h3").innerText;
+
+document.getElementById("popup-desc").innerText=
+card.querySelector("p").innerText;
+
+document.getElementById("popup").style.display="flex";
+}
+
+function closePost(){
+document.getElementById("popup").style.display="none";
+}
+
 </script>
 
 </body>
