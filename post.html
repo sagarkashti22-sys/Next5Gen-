@@ -1,83 +1,69 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Article - Next5Gen</title>
+<title>Next5Gen Post</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;700&display=swap" rel="stylesheet">
 
 <style>
+
 body{
 margin:0;
-font-family:'Poppins',sans-serif;
-background:linear-gradient(135deg,#667eea,#764ba2);
-color:#fff;
-padding:20px;
+padding:0;
+font-family:Poppins,sans-serif;
+background:#f4f7ff;
 }
 
-.article{
-max-width:800px;
+.container{
+max-width:900px;
 margin:auto;
-background:#fff;
-color:#000;
-padding:30px;
-border-radius:15px;
+padding:40px 20px;
+background:white;
+border-radius:12px;
+box-shadow:0 10px 25px rgba(0,0,0,0.1);
+margin-top:40px;
 }
 
-.article-img{
-height:300px;
-background-size:cover;
-background-position:center;
+img{
+width:100%;
 border-radius:10px;
 margin-bottom:20px;
 }
 
-.back{
-display:inline-block;
-margin-top:20px;
-padding:8px 15px;
-background:#0077ff;
-color:#fff;
-border-radius:20px;
-text-decoration:none;
+h1{
+color:#4e73df;
 }
+
+p{
+line-height:1.7;
+}
+
 </style>
+
 </head>
 
 <body>
 
-<div class="article">
-<div class="article-img" id="articleImage"></div>
-<h1 id="articleTitle"></h1>
+<div class="container">
 
-<p>
-Yaha aap apna full article content likh sakte ho. Isko replace karke apna 1000-2000 words ka content paste kar sakte ho.
-</p>
+<h1 id="title"></h1>
+<img id="image">
+<p id="desc"></p>
 
-<a href="index.html" class="back">Back to Home</a>
 </div>
 
 <script>
+
 const params=new URLSearchParams(window.location.search);
-const category=params.get("category");
 
-const img=document.getElementById("articleImage");
+document.getElementById("title").innerText=params.get("title") || "Next5Gen Article";
 
-if(category==="education"){
-img.style.backgroundImage="url('https://source.unsplash.com/800x500/?education')";
-}
-if(category==="technology"){
-img.style.backgroundImage="url('https://source.unsplash.com/800x500/?technology')";
-}
-if(category==="health"){
-img.style.backgroundImage="url('https://source.unsplash.com/800x500/?health')";
-}
-if(category==="lifestyle"){
-img.style.backgroundImage="url('https://source.unsplash.com/800x500/?lifestyle')";
-}
+document.getElementById("desc").innerText=params.get("desc") || "Article content will appear here.";
 
-document.getElementById("articleTitle").innerText=params.get("title");
+document.getElementById("image").src=params.get("img") || "";
+
 </script>
 
 </body>
