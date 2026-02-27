@@ -3,27 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Next5Gen Blog</title>
+<title>Next5Gen</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
-}
-
-/* DARK MODE */
 body{
 background:#f4f7ff;
-transition:0.4s;
+transition:0.3s;
 }
 
 body.dark{
-background:#0f172a;
+background:#1e1e1e;
 color:white;
 }
 
@@ -34,24 +27,18 @@ padding:15px 5%;
 display:flex;
 justify-content:space-between;
 align-items:center;
+flex-wrap:wrap;
 color:white;
 position:sticky;
 top:0;
 z-index:1000;
-flex-wrap:wrap;
 }
 
-.logo svg{
-height:45px;
-animation: glow 2s infinite alternate;
+.logo{
+font-size:24px;
+font-weight:700;
 }
 
-@keyframes glow{
-from{filter: drop-shadow(0 0 5px yellow);}
-to{filter: drop-shadow(0 0 20px white);}
-}
-
-/* NAV */
 nav ul{
 display:flex;
 list-style:none;
@@ -60,10 +47,8 @@ gap:20px;
 
 nav ul li{
 cursor:pointer;
-font-weight:500;
 padding:5px 10px;
 border-radius:5px;
-transition:0.3s;
 }
 
 nav ul li:hover,
@@ -71,38 +56,14 @@ nav ul li.active{
 background:rgba(255,255,255,0.3);
 }
 
-/* SEARCH */
-.search-box{
-display:flex;
-align-items:center;
+/* BUTTONS */
+.toggle-btn{
 background:white;
+border:none;
+padding:6px 12px;
 border-radius:20px;
-padding:5px 10px;
-margin-top:10px;
-}
-
-.search-box input{
-border:none;
-outline:none;
-padding:5px;
-width:160px;
-}
-
-.search-box button{
-border:none;
-background:none;
 cursor:pointer;
-font-size:18px;
-}
-
-/* DARK MODE SEARCH */
-body.dark .search-box{
-background:#1e293b;
-}
-
-body.dark .search-box input{
-background:transparent;
-color:white;
+margin-top:10px;
 }
 
 /* HERO */
@@ -111,11 +72,6 @@ background:linear-gradient(to right,#4e73df,#36b9cc);
 color:white;
 padding:60px 5%;
 text-align:center;
-}
-
-.hero h1{
-font-size:40px;
-margin-bottom:15px;
 }
 
 /* POSTS */
@@ -131,16 +87,12 @@ background:white;
 border-radius:12px;
 overflow:hidden;
 box-shadow:0 10px 25px rgba(0,0,0,0.1);
-transition:0.4s;
+transition:0.3s;
+cursor:pointer;
 }
 
 body.dark .card{
-background:#1e293b;
-color:white;
-}
-
-.card.hide{
-display:none;
+background:#2c2c2c;
 }
 
 .card:hover{
@@ -162,18 +114,36 @@ margin-bottom:10px;
 color:#4e73df;
 }
 
-body.dark .card h3{
-color:#00c6ff;
+/* POPUP */
+.popup{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.7);
+display:none;
+justify-content:center;
+align-items:center;
+padding:20px;
 }
 
-.category{
-display:inline-block;
-background:#1cc88a;
+.popup-content{
+background:white;
+padding:30px;
+max-width:600px;
+border-radius:10px;
+}
+
+body.dark .popup-content{
+background:#2c2c2c;
 color:white;
-padding:5px 10px;
-border-radius:5px;
-font-size:12px;
-margin-bottom:10px;
+}
+
+.close-btn{
+float:right;
+cursor:pointer;
+font-size:18px;
 }
 
 /* FOOTER */
@@ -184,36 +154,13 @@ text-align:center;
 padding:20px;
 margin-top:40px;
 }
-
-.dark-toggle{
-background:white;
-border:none;
-padding:6px 12px;
-border-radius:20px;
-cursor:pointer;
-margin-left:10px;
-}
-
 </style>
 </head>
 
 <body>
 
 <header>
-
-<div class="logo">
-<svg viewBox="0 0 400 100">
-<defs>
-<linearGradient id="grad1">
-<stop offset="0%" stop-color="#ffdd00"/>
-<stop offset="100%" stop-color="#ffffff"/>
-</linearGradient>
-</defs>
-<text x="0" y="65" font-size="60" font-weight="700" fill="url(#grad1)">
-Next5Gen
-</text>
-</svg>
-</div>
+<div class="logo">Next5Gen</div>
 
 <nav>
 <ul id="menu">
@@ -225,14 +172,7 @@ Next5Gen
 </ul>
 </nav>
 
-<div class="search-box">
-<input type="text" id="searchInput" placeholder="Search posts...">
-<button onclick="applyFilters()">🔍</button>
-
-<button class="dark-toggle" onclick="toggleDark()">🌙</button>
-
-</div>
-
+<button class="toggle-btn" onclick="toggleDark()">🌙 Mode</button>
 </header>
 
 <section class="hero">
@@ -242,44 +182,55 @@ Next5Gen
 
 <section class="container" id="posts">
 
-<!-- POSTS SAME AS YOUR OLD CODE -->
+<div class="card" data-category="education" onclick="openPost(this)">
+<img src="https://source.unsplash.com/600x400/?education,study">
+<div class="card-content">
+<h3>Top Study Techniques 2026</h3>
+<p>Learn smart study methods to boost productivity and exam results.</p>
+</div>
+</div>
+
+<div class="card" data-category="technology" onclick="openPost(this)">
+<img src="https://source.unsplash.com/600x400/?technology,ai">
+<div class="card-content">
+<h3>Future of AI</h3>
+<p>Artificial Intelligence is transforming the world rapidly.</p>
+</div>
+</div>
+
+<div class="card" data-category="health" onclick="openPost(this)">
+<img src="https://source.unsplash.com/600x400/?health,fitness">
+<div class="card-content">
+<h3>Healthy Living Guide</h3>
+<p>Daily habits to improve your physical and mental health.</p>
+</div>
+</div>
 
 </section>
 
+<div class="popup" id="popup">
+<div class="popup-content">
+<span class="close-btn" onclick="closePost()">✖</span>
+<h2 id="popup-title"></h2>
+<p id="popup-desc"></p>
+</div>
+</div>
+
 <footer>
-© 2026 Next5Gen Blog | Designed by Next5Gen
+© 2026 Next5Gen | Designed by Next5Gen
 </footer>
 
 <script>
 
-/* CATEGORY FILTER */
 let currentCategory="all";
 
 function filterPosts(category,element){
 currentCategory=category;
-
-document.querySelectorAll("#menu li").forEach(li=>{
-li.classList.remove("active");
-});
-
+document.querySelectorAll("#menu li").forEach(li=>li.classList.remove("active"));
 element.classList.add("active");
 
-applyFilters();
-}
-
-/* SEARCH + FILTER */
-function applyFilters(){
-let input=document.getElementById("searchInput").value.toLowerCase();
-let cards=document.querySelectorAll(".card");
-
-cards.forEach(card=>{
-let title=card.querySelector("h3").innerText.toLowerCase();
-let desc=card.querySelector("p").innerText.toLowerCase();
-
-let categoryMatch=(currentCategory==="all" || card.dataset.category===currentCategory);
-let searchMatch=(title.includes(input) || desc.includes(input));
-
-if(categoryMatch && searchMatch){
+document.querySelectorAll(".card").forEach(card=>{
+if(category==="all" || card.dataset.category===category){
 card.style.display="block";
 }else{
 card.style.display="none";
@@ -287,9 +238,22 @@ card.style.display="none";
 });
 }
 
-/* DARK MODE */
 function toggleDark(){
 document.body.classList.toggle("dark");
+}
+
+function openPost(card){
+document.getElementById("popup-title").innerText=
+card.querySelector("h3").innerText;
+
+document.getElementById("popup-desc").innerText=
+card.querySelector("p").innerText;
+
+document.getElementById("popup").style.display="flex";
+}
+
+function closePost(){
+document.getElementById("popup").style.display="none";
 }
 
 </script>
